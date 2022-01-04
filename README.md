@@ -16,7 +16,7 @@ simple crud application using golang and mysql database
 ## project feature
 
 - login system
-- inset data
+- insert data
 - update data
 - show data
 - delete data
