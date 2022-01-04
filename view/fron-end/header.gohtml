@@ -1,3 +1,4 @@
+{{define "Header"}}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,22 +29,10 @@
                 <li>
                     <a href="delete.html">Delete</a>
                 </li>
+                <li class="right_menu">
+                    <a href="index.html">Log out</a>
+                </li>
             </ul>
         </div>
 
-
-
-        <div id="main-content">
-            <h2>Delete Record</h2>
-            <form class="post-form" action="" method="post">
-                <div class="form-group">
-                    <label>Id</label>
-                    <input type="text" name="sid" />
-                </div>
-                <input class="submit" type="submit" name="deletebtn" value="Delete" />
-            </form>
-        </div>
-    </div>
-</body>
-
-</html>
+{{end}}

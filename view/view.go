@@ -1,1 +1,7 @@
 package view
+
+
+
+// func template()  {
+	
+// }
