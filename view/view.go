@@ -1,7 +1,5 @@
 package view
 
-
-
-// func template()  {
+func View() {
 	
-// }
+}
