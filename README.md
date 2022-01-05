@@ -1,6 +1,6 @@
 # Golang Crud Application
 
-simple crud application using golang and mysql database
+simple crud application using golang and SQLite database
 
 ## Project Requirements
 
@@ -11,7 +11,7 @@ simple crud application using golang and mysql database
 - Back-end
   - GOLANG
 - Database
-  - MySQL
+  - SQLite
 
 ## project feature
 
