@@ -15,10 +15,12 @@ var (
 func main() {
 	homeView = views.NewView("views/fron-end/index.gohtml")
 
-	fmt.Println("Listening port :8080")
 	r := mux.NewRouter()
-	r.PathPrefix("/asset/").Handler(http.StripPrefix("/asset/", http.FileServer(http.Dir("views/fron-end/asset"))))
+	r.PathPrefix("/asset/").Handler(http.StripPrefix("/asset/", http.FileServer(http.Dir("view/fron-end/asset"))))
+
 	r.HandleFunc("/", home)
+	
+	fmt.Println("Listening port :8080")
 	http.ListenAndServe(":8080", r)
 }
 
