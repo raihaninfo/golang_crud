@@ -8,16 +8,26 @@ import (
 	"github.com/gorilla/mux"
 )
 
+var (
+	homeTemplate *template.Template
+)
+
 func main() {
-	fmt.Println("Crud app")
+	var err error
+	homeTemplate, err = template.ParseFiles("view/view.gohtml")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("Listening port :8080")
 	r := mux.NewRouter()
 	r.PathPrefix("/asset/").Handler(http.StripPrefix("/asset/", http.FileServer(http.Dir("view/fron-end/asset"))))
-	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		temp, err := template.ParseFiles("view/fron-end/index.gohtml", "view/fron-end/header.gohtml")
-		if err != nil {
-			fmt.Println(err.Error())
-		}
-		temp.Execute(w, nil)
-	})
+	r.HandleFunc("/", home)
 	http.ListenAndServe(":8080", r)
+}
+
+func home(w http.ResponseWriter, r *http.Request) {
+	err := homeTemplate.Execute(w, nil)
+	if err != nil {
+		panic(err)
+	}
 }
