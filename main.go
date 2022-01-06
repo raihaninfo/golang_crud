@@ -9,10 +9,11 @@ import (
 )
 
 var (
-	homeView   *views.View
-	addView    *views.View
-	ubdateView *views.View
-	deleteView *views.View
+	homeView     *views.View
+	addView      *views.View
+	ubdateView   *views.View
+	deleteView   *views.View
+	notFountView *views.View
 )
 
 func main() {
@@ -20,10 +21,10 @@ func main() {
 	addView = views.NewView("views/fron-end/add.gohtml")
 	ubdateView = views.NewView("views/fron-end/update.gohtml")
 	deleteView = views.NewView("views/fron-end/delete.gohtml")
-
+	notFountView = views.NewView("views/fron-end/notfount.gohtml")
 	r := mux.NewRouter()
 	r.PathPrefix("/asset/").Handler(http.StripPrefix("/asset/", http.FileServer(http.Dir("views/fron-end/asset"))))
-
+	r.NotFoundHandler = http.HandlerFunc(notFount)
 	r.HandleFunc("/", home)
 	r.HandleFunc("/add", add)
 	r.HandleFunc("/update", update)
@@ -50,6 +51,11 @@ func update(w http.ResponseWriter, r *http.Request) {
 
 func delete(w http.ResponseWriter, r *http.Request) {
 	err := deleteView.Template.Execute(w, nil)
+	FeatchError(err)
+}
+
+func notFount(w http.ResponseWriter, r *http.Request) {
+	err := notFountView.Template.Execute(w, nil)
 	FeatchError(err)
 }
 
