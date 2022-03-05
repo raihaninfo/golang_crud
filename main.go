@@ -6,6 +6,8 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
+	_ "github.com/mattn/go-sqlite3"
+	"github.com/raihaninfo/golang_crud/model"
 	"github.com/raihaninfo/golang_crud/views"
 )
 
@@ -19,6 +21,10 @@ var (
 )
 
 var store = sessions.NewCookieStore([]byte("secret-password"))
+
+func init() {
+	model.Dbcon()
+}
 
 func main() {
 	homeView = views.NewView("views/fron-end/index.gohtml")
