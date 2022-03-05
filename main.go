@@ -14,7 +14,7 @@ import (
 var (
 	homeView     *views.View
 	addView      *views.View
-	ubdateView   *views.View
+	updateView   *views.View
 	deleteView   *views.View
 	notFountView *views.View
 	loginView    *views.View
@@ -26,15 +26,17 @@ func init() {
 	model.Dbcon()
 }
 
+var port string = ":8081"
+
 func main() {
-	homeView = views.NewView("views/fron-end/index.gohtml")
-	addView = views.NewView("views/fron-end/add.gohtml")
-	ubdateView = views.NewView("views/fron-end/update.gohtml")
-	deleteView = views.NewView("views/fron-end/delete.gohtml")
-	notFountView = views.NewView("views/fron-end/notfount.gohtml")
-	loginView = views.NewView("views/fron-end/login.gohtml")
+	homeView = views.NewView("views/front-end/index.gohtml")
+	addView = views.NewView("views/front-end/add.gohtml")
+	updateView = views.NewView("views/front-end/update.gohtml")
+	deleteView = views.NewView("views/front-end/delete.gohtml")
+	notFountView = views.NewView("views/front-end/notfount.gohtml")
+	loginView = views.NewView("views/front-end/login.gohtml")
 	r := mux.NewRouter()
-	r.PathPrefix("/asset/").Handler(http.StripPrefix("/asset/", http.FileServer(http.Dir("views/fron-end/asset"))))
+	r.PathPrefix("/asset/").Handler(http.StripPrefix("/asset/", http.FileServer(http.Dir("views/front-end/asset"))))
 	r.NotFoundHandler = http.HandlerFunc(notFount)
 	r.HandleFunc("/login", login)
 	r.HandleFunc("/", home)
@@ -42,48 +44,49 @@ func main() {
 	r.HandleFunc("/update", update)
 	r.HandleFunc("/delete", delete)
 
-	fmt.Println("Listening port :8080")
-	http.ListenAndServe(":8080", r)
+	fmt.Println("Listening port ", port)
+	http.ListenAndServe(port, r)
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
 	session, err := store.Get(r, "login-session")
-	FeatchError(err)
+	FetchError(err)
 	_, ok := session.Values["session"]
 	if ok {
 		http.Redirect(w, r, "/", http.StatusNotFound)
 	}
 	er := loginView.Template.Execute(w, nil)
-	FeatchError(er)
+	FetchError(er)
 }
 
 func home(w http.ResponseWriter, r *http.Request) {
 	err := homeView.Template.Execute(w, nil)
-	FeatchError(err)
+	FetchError(err)
 }
 
 func add(w http.ResponseWriter, r *http.Request) {
 	err := addView.Template.Execute(w, nil)
-	FeatchError(err)
+	FetchError(err)
 }
 
 func update(w http.ResponseWriter, r *http.Request) {
-	err := ubdateView.Template.Execute(w, nil)
-	FeatchError(err)
+	err := updateView.Template.Execute(w, nil)
+	FetchError(err)
 }
 
 func delete(w http.ResponseWriter, r *http.Request) {
 	err := deleteView.Template.Execute(w, nil)
-	FeatchError(err)
+	FetchError(err)
 }
 
 func notFount(w http.ResponseWriter, r *http.Request) {
 	err := notFountView.Template.Execute(w, nil)
-	FeatchError(err)
+	FetchError(err)
 }
 
-func FeatchError(err error) {
+func FetchError(err error) {
 	if err != nil {
 		panic(err)
 	}
 }
+
