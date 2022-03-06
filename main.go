@@ -42,10 +42,26 @@ func main() {
 	r.HandleFunc("/", home)
 	r.HandleFunc("/add", add)
 	r.HandleFunc("/update", update)
+	r.HandleFunc("/update/{id}", updateId)
 	r.HandleFunc("/delete", delete)
 
 	fmt.Println("Listening port ", port)
 	http.ListenAndServe(port, r)
+}
+
+func updateId(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
+	res := struct {
+		Id   string `json:"id"`
+		Name string `json:"name"`
+	}{
+		Id:   id,
+		Name: "raihan",
+	}
+
+	// b, _ := json.Marshal(res)
+	// w.Write(b)
+	updateView.Template.Execute(w, res)
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
@@ -89,4 +105,3 @@ func FetchError(err error) {
 		panic(err)
 	}
 }
-
