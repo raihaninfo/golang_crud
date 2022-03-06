@@ -8,3 +8,5 @@ github.com/mateors/msql v0.0.0-20211213034720-26a7ed4e79c4 h1:wwqZM7usz2uSJYEEGr
 github.com/mateors/msql v0.0.0-20211213034720-26a7ed4e79c4/go.mod h1:9kE1wjC/UVAgSE19YLqJK8GxBnJv0AMjN78eyabLVbM=
 github.com/mattn/go-sqlite3 v1.14.10 h1:MLn+5bFRlWMGoSRmJour3CL1w/qL96mvipqpwQW/Sfk=
 github.com/mattn/go-sqlite3 v1.14.10/go.mod h1:NyWgC/yNuGj7Q9rpYnZvas74GogHl5/Z4A/KQRfk6bU=
+github.com/mattn/go-sqlite3 v1.14.12 h1:TJ1bhYJPV44phC+IMu1u2K/i5RriLTPe+yc68XDJ1Z0=
+github.com/mattn/go-sqlite3 v1.14.12/go.mod h1:NyWgC/yNuGj7Q9rpYnZvas74GogHl5/Z4A/KQRfk6bU=

@@ -52,6 +52,14 @@ func main() {
 	http.ListenAndServe(port, r)
 }
 
+type student struct {
+	Id      string
+	Name    string
+	Address string
+	Class   string
+	Phone   string
+}
+
 func updateId(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
 	res := struct {
@@ -80,10 +88,19 @@ func login(w http.ResponseWriter, r *http.Request) {
 }
 
 func home(w http.ResponseWriter, r *http.Request) {
-	err := homeView.Template.Execute(w, nil)
+	studen := []student{}
+	allStudent := model.ShowAll()
+	for i := 0; i < len(allStudent); i++ {
+		id := allStudent[i]["id"].(string)
+		name := allStudent[i]["name"].(string)
+		address := allStudent[i]["address"].(string)
+		class := allStudent[i]["class"].(string)
+		phone := allStudent[i]["phone"].(string)
+		studen = append(studen, student{Id: id, Name: name, Address: address, Class: class, Phone: phone})
+	}
+	err := homeView.Template.Execute(w, studen)
 	FetchError(err)
-	ff := model.ShowAll()
-	fmt.Println(ff)
+
 }
 
 func add(w http.ResponseWriter, r *http.Request) {
