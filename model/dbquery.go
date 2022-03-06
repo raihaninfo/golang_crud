@@ -59,3 +59,13 @@ func UpdateStudent(name, address, class, phone, studentId string) (bool, error) 
 	row := msql.RawSQL(qs, db)
 	return row, nil
 }
+
+func DeleteById(id string) (bool, error) {
+	idInt, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		log.Println(err)
+	}
+	qs := fmt.Sprintf("DELETE FROM student WHERE id=%v;", idInt)
+	row := msql.RawSQL(qs, db)
+	return row, nil
+}

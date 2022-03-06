@@ -27,7 +27,7 @@ func init() {
 	model.Dbcon()
 }
 
-var port string = ":8081"
+var port string = ":8080"
 
 func main() {
 	homeView = views.NewView("views/front-end/index.gohtml")
@@ -48,6 +48,7 @@ func main() {
 	r.HandleFunc("/updateauth", updateAuth)
 	r.HandleFunc("/update/{id}", updateId)
 	r.HandleFunc("/delete", delete)
+	r.HandleFunc("/delete/{id}", deleteId)
 
 	fmt.Println("Listening port ", port)
 	http.ListenAndServe(port, r)
@@ -79,6 +80,12 @@ func updateId(w http.ResponseWriter, r *http.Request) {
 
 	err := editView.Template.Execute(w, stu)
 	FetchError(err)
+}
+
+func deleteId(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
+	model.DeleteById(id)
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
 func updateAuth(w http.ResponseWriter, r *http.Request) {
@@ -131,9 +138,7 @@ func addAuth(w http.ResponseWriter, r *http.Request) {
 	saddress := r.FormValue("saddress")
 	class := r.FormValue("class")
 	phone := r.FormValue("sphone")
-	fmt.Println(name, saddress, class, phone)
-	_, err := model.AddStudent(name, saddress, class, phone)
-	FetchError(err)
+	model.AddStudent(name, saddress, class, phone)
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
