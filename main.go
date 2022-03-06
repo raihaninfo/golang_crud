@@ -45,6 +45,7 @@ func main() {
 	r.HandleFunc("/add", add)
 	r.HandleFunc("/addauth", addAuth)
 	r.HandleFunc("/update", update)
+	r.HandleFunc("/updateauth", updateAuth)
 	r.HandleFunc("/update/{id}", updateId)
 	r.HandleFunc("/delete", delete)
 
@@ -60,8 +61,11 @@ type student struct {
 	Phone   string
 }
 
+var studentId string
+
 func updateId(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
+	studentId = id
 	stu := []student{}
 	allStudent := model.ShowById(id)
 	for i := 0; i < len(allStudent); i++ {
@@ -75,6 +79,17 @@ func updateId(w http.ResponseWriter, r *http.Request) {
 
 	err := editView.Template.Execute(w, stu)
 	FetchError(err)
+}
+
+func updateAuth(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	sname := r.FormValue("sname")
+	saddress := r.FormValue("saddress")
+	sclass := r.FormValue("sclass")
+	sphone := r.FormValue("sphone")
+
+	model.UpdateStudent(sname, saddress, sclass, sphone, studentId)
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
@@ -107,6 +122,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 func add(w http.ResponseWriter, r *http.Request) {
 	err := addView.Template.Execute(w, nil)
 	FetchError(err)
+
 }
 
 func addAuth(w http.ResponseWriter, r *http.Request) {

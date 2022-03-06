@@ -49,3 +49,13 @@ func ShowById(id string) []map[string]interface{} {
 	}
 	return rows
 }
+
+func UpdateStudent(name, address, class, phone, studentId string) (bool, error) {
+	idInt, err := strconv.ParseInt(studentId, 10, 64)
+	if err != nil {
+		log.Println(err)
+	}
+	qs := fmt.Sprintf("UPDATE student SET name = '%s', address = '%s', class= '%s', phone='%s' WHERE id=%v;", name, address, class, phone, idInt)
+	row := msql.RawSQL(qs, db)
+	return row, nil
+}
