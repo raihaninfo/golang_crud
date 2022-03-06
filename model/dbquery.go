@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/url"
+	"strconv"
 
 	"github.com/mateors/msql"
 )
@@ -29,6 +30,19 @@ func AddStudent(name, address, class, phone string) (int64, error) {
 
 func ShowAll() []map[string]interface{} {
 	qs := "SELECT * FROM student"
+	rows, err := msql.GetAllRowsByQuery(qs, db)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return rows
+}
+
+func ShowById(id string) []map[string]interface{} {
+	idInt, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		log.Println(err)
+	}
+	qs := fmt.Sprintf("SELECT * FROM student WHERE id=%v;", idInt)
 	rows, err := msql.GetAllRowsByQuery(qs, db)
 	if err != nil {
 		fmt.Println(err)

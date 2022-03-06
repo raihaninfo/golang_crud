@@ -27,7 +27,7 @@ func init() {
 	model.Dbcon()
 }
 
-var port string = ":8082"
+var port string = ":8081"
 
 func main() {
 	homeView = views.NewView("views/front-end/index.gohtml")
@@ -62,17 +62,18 @@ type student struct {
 
 func updateId(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
-	res := struct {
-		Id   string `json:"id"`
-		Name string `json:"name"`
-	}{
-		Id:   id,
-		Name: "raihan",
+	stu := []student{}
+	allStudent := model.ShowById(id)
+	for i := 0; i < len(allStudent); i++ {
+		id := allStudent[i]["id"].(string)
+		name := allStudent[i]["name"].(string)
+		address := allStudent[i]["address"].(string)
+		class := allStudent[i]["class"].(string)
+		phone := allStudent[i]["phone"].(string)
+		stu = append(stu, student{Id: id, Name: name, Address: address, Class: class, Phone: phone})
 	}
 
-	// b, _ := json.Marshal(res)
-	// w.Write(b)
-	err := editView.Template.Execute(w, res)
+	err := editView.Template.Execute(w, stu)
 	FetchError(err)
 }
 
