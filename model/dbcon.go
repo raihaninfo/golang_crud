@@ -11,7 +11,7 @@ var db *sql.DB
 var err error
 
 func Dbcon() {
-	db, err = sql.Open("sqlite3", "./crud.db")
+	db, err = sql.Open("sqlite3", "crud.db")
 	if err != nil {
 		log.Fatal(err)
 	}

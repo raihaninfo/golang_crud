@@ -43,6 +43,7 @@ func main() {
 	r.HandleFunc("/login", login)
 	r.HandleFunc("/", home)
 	r.HandleFunc("/add", add)
+	r.HandleFunc("/addauth", addAuth)
 	r.HandleFunc("/update", update)
 	r.HandleFunc("/update/{id}", updateId)
 	r.HandleFunc("/delete", delete)
@@ -81,11 +82,25 @@ func login(w http.ResponseWriter, r *http.Request) {
 func home(w http.ResponseWriter, r *http.Request) {
 	err := homeView.Template.Execute(w, nil)
 	FetchError(err)
+	ff := model.ShowAll()
+	fmt.Println(ff)
 }
 
 func add(w http.ResponseWriter, r *http.Request) {
 	err := addView.Template.Execute(w, nil)
 	FetchError(err)
+}
+
+func addAuth(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	name := r.FormValue("sname")
+	saddress := r.FormValue("saddress")
+	class := r.FormValue("class")
+	phone := r.FormValue("sphone")
+	fmt.Println(name, saddress, class, phone)
+	_, err := model.AddStudent(name, saddress, class, phone)
+	FetchError(err)
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
 func update(w http.ResponseWriter, r *http.Request) {
