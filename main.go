@@ -18,6 +18,7 @@ var (
 	deleteView   *views.View
 	notFountView *views.View
 	loginView    *views.View
+	editView     *views.View
 )
 
 var store = sessions.NewCookieStore([]byte("secret-password"))
@@ -26,7 +27,7 @@ func init() {
 	model.Dbcon()
 }
 
-var port string = ":8081"
+var port string = ":8082"
 
 func main() {
 	homeView = views.NewView("views/front-end/index.gohtml")
@@ -35,6 +36,7 @@ func main() {
 	deleteView = views.NewView("views/front-end/delete.gohtml")
 	notFountView = views.NewView("views/front-end/notfount.gohtml")
 	loginView = views.NewView("views/front-end/login.gohtml")
+	editView = views.NewView("views/front-end/edit.gohtml")
 	r := mux.NewRouter()
 	r.PathPrefix("/asset/").Handler(http.StripPrefix("/asset/", http.FileServer(http.Dir("views/front-end/asset"))))
 	r.NotFoundHandler = http.HandlerFunc(notFount)
@@ -61,7 +63,8 @@ func updateId(w http.ResponseWriter, r *http.Request) {
 
 	// b, _ := json.Marshal(res)
 	// w.Write(b)
-	updateView.Template.Execute(w, res)
+	err := editView.Template.Execute(w, res)
+	FetchError(err)
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
